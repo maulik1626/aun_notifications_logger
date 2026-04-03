@@ -16,7 +16,7 @@ dependencies:
   aun_notifications_logger:
     git:
       url: https://github.com/maulik1626/aun_notifications_logger.git
-      ref: 1.0.1
+      ref: 1.0.2
 ```
 
 ## How to setup
@@ -26,19 +26,57 @@ Initialize it when your app boosts (e.g. `main.dart`):
 await AunNotificationsLogger.instance.initialize();
 ```
 
-Log your notification inside your FirebaseMessaging handler:
+### When is a notification stored?
+This package only writes a log entry when you call:
+`AunNotificationsLogger.instance.logNotification(...)`.
+
+So whether a notification appears in the log on:
+- **arrival** (message received), or
+- **tap/open** (user opens the notification)
+
+depends entirely on which Firebase callback/handler you invoke `logNotification()` from.
+
+### Log on arrival (message received)
+Call `logNotification()` from the handler that runs when the message is received:
 ```dart
-AunNotificationsLogger.instance.logNotification(
-  NotificationLogModel(
-    title: message.notification?.title ?? '',
-    body: message.notification?.body ?? '',
-    payload: jsonEncode(message.data),
-    type: message.data['type'],
-    action: message.data['action'],
-    route: message.data['route'],
-    timestamp: message.sentTime?.millisecondsSinceEpoch ?? DateTime.now().millisecondsSinceEpoch,
-  )
-);
+// Example (foreground):
+FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  AunNotificationsLogger.instance.logNotification(
+    NotificationLogModel(
+      title: message.notification?.title ?? '',
+      body: message.notification?.body ?? '',
+      payload: jsonEncode(message.data),
+      type: message.data['type'],
+      action: message.data['action'],
+      route: message.data['route'],
+      timestamp: message.sentTime?.millisecondsSinceEpoch ??
+          DateTime.now().millisecondsSinceEpoch,
+    ),
+  );
+});
 ```
+
+### Log on tap/open (notification opened)
+Call `logNotification()` from the handler that runs when the user taps the notification:
+```dart
+// Example:
+FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+  AunNotificationsLogger.instance.logNotification(
+    NotificationLogModel(
+      title: message.notification?.title ?? '',
+      body: message.notification?.body ?? '',
+      payload: jsonEncode(message.data),
+      type: message.data['type'],
+      action: message.data['action'],
+      route: message.data['route'],
+      timestamp: message.sentTime?.millisecondsSinceEpoch ??
+          DateTime.now().millisecondsSinceEpoch,
+    ),
+  );
+});
+```
+
+### Cold start (tap when app was not running)
+If you need to log a tap that launches the app from a terminated state, invoke `logNotification()` from whatever code path you use with `FirebaseMessaging.getInitialMessage()`.
 
 Access the UI screens by routing to `NotificationsLogDatesScreen()` or simply placing it in a debug menu.
