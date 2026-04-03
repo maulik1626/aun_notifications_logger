@@ -16,7 +16,7 @@ dependencies:
   aun_notifications_logger:
     git:
       url: https://github.com/maulik1626/aun_notifications_logger.git
-      ref: 1.0.0
+      ref: 1.0.1
 ```
 
 ## How to setup
