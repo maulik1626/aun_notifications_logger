@@ -141,10 +141,6 @@ class _LogItemBlockState extends State<LogItemBlock>
         constraints: BoxConstraints(
           minWidth: captureWidth,
           maxWidth: captureWidth,
-          // Allow the share-capture widget to measure its full height.
-          // Otherwise the internal `Column` can overflow during screenshot layout.
-          minHeight: 0,
-          maxHeight: double.maxFinite,
         ),
       );
 

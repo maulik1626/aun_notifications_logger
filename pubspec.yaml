@@ -1,6 +1,6 @@
 name: aun_notifications_logger
 description: "A new Flutter package tailored to log push notifications."
-version: 1.0.2
+version: 1.0.3
 
 environment:
   sdk: ^3.11.1
