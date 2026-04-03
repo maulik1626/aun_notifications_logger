@@ -1,0 +1,27 @@
+# aun_notifications_logger Project Rules
+
+You are an AI assistant working on the `aun_notifications_logger` Flutter package. You must strictly adhere to the following rules based on the `PRODUCTION_GUIDELINES.md`:
+
+1. **Versioning**: Strictly use Semantic Versioning (SemVer 2.0.0) in `pubspec.yaml` (MAJOR.MINOR.PATCH).
+2. **Changelog**: Every version bump MUST be accompanied by an update in `CHANGELOG.md` under the strict format `## [Version] - YYYY-MM-DD`.
+3. **Commits**: All Git commits MUST use Conventional Commits (e.g., `feat(ui): ...`, `fix(core): ...`).
+4. **Code Quality**:
+   - The code must be formatted using `dart format .`.
+   - `flutter analyze` MUST return 0 warnings/errors. Fix all `info` rules.
+   - Absolutely NO `print` or `debugPrint` statements.
+5. **Testing**: New features require tests (`>80%` coverage).
+6. **Dependency Version Pinning & Docs Sync**:
+   - App integrations of `aun_notifications_logger` MUST use a pinned immutable reference (published version or git tag), never a moving branch reference like `ref: main`.
+   - Documentation MUST always include the `pubspec.yaml` dependency code block for `aun_notifications_logger`.
+   - Whenever the dependency reference/version is changed, that README/documentation code block MUST be updated in the same change.
+7. **Changelog Dependency Block (Mandatory for Every Version Bump)**:
+   - Every `CHANGELOG.md` version entry MUST include a `### Dependencies` section with a dedicated yaml code block showing the exact `aun_notifications_logger` git `url` and pinned `ref` (git tag) for that version.
+   - The `ref` in the dependency block MUST be the actual pushed git tag that contains that version's code changes.
+   - The `README.md` dependency block MUST always show the latest version git tag.
+   - **Workflow**: After committing and pushing a version bump, immediately update `CHANGELOG.md` and `README.md` with the pushed version git tag, then commit and push the ref update.
+8. **Commit Request Workflow (Always Treat As Release Prep)**:
+   - Whenever the user asks to create a commit, do **not** commit code changes first and update release files later.
+   - Before creating that commit, you MUST bump `pubspec.yaml` to the appropriate SemVer version, update `CHANGELOG.md`, and update the `README.md` dependency ref/code block to the same release version, following `PRODUCTION_GUIDELINES.md`.
+   - Only create the commit after those versioning and documentation updates are included in the same change set.
+
+Always check `PRODUCTION_GUIDELINES.md` if you are unsure about the release process.
